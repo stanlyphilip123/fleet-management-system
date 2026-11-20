@@ -1,0 +1,27 @@
+
+[app]
+
+title = Fleet Management System
+package.name = fleetmanagement
+package.domain = org.stanlyphilip
+
+source.dir = .
+source.include_exts = py,png,csv,kv,atlas
+
+version = 1.0.0
+
+requirements = python3,kivy
+
+orientation = portrait
+fullscreen = 0
+
+android.minapi = 27
+android.api = 35
+android.archs = arm64-v8a, armeabi-v7a
+
+android.permissions =
+
+[buildozer]
+
+log_level = 2
+warn_on_root = 1
