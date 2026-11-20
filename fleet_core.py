@@ -26,8 +26,11 @@ import filecmp
 
 from datetime import datetime, date
 
+
+
+
 # ==========================================
-# SYSTEM CONFIGURATION
+# SYSTEM STORAGE CONFIGURATION
 # ==========================================
 
 APP_FOLDER = os.path.dirname(os.path.abspath(__file__))
@@ -35,12 +38,76 @@ APP_FOLDER = os.path.dirname(os.path.abspath(__file__))
 VEHICLES_FILE = os.path.join(APP_FOLDER, "vehicles.csv")
 DRIVERS_FILE = os.path.join(APP_FOLDER, "drivers.csv")
 TRIPS_FILE = os.path.join(APP_FOLDER, "trips.csv")
-MAINTENANCE_FILE = os.path.join(
-    APP_FOLDER,
-    "maintenance.csv"
-)
+MAINTENANCE_FILE = os.path.join(APP_FOLDER, "maintenance.csv")
 
 BACKUP_FOLDER = os.path.join(APP_FOLDER, "fleet_backups")
+
+
+def configure_storage(data_directory):
+
+    global APP_FOLDER
+    global VEHICLES_FILE
+    global DRIVERS_FILE
+    global TRIPS_FILE
+    global MAINTENANCE_FILE
+    global BACKUP_FOLDER
+
+    APP_FOLDER = data_directory
+
+    os.makedirs(
+        APP_FOLDER,
+        exist_ok=True
+    )
+
+    VEHICLES_FILE = os.path.join(
+        APP_FOLDER, "vehicles.csv"
+    )
+
+    DRIVERS_FILE = os.path.join(
+        APP_FOLDER, "drivers.csv"
+    )
+
+    TRIPS_FILE = os.path.join(
+        APP_FOLDER, "trips.csv"
+    )
+
+    MAINTENANCE_FILE = os.path.join(
+        APP_FOLDER, "maintenance.csv"
+    )
+
+    BACKUP_FOLDER = os.path.join(
+        APP_FOLDER, "fleet_backups"
+    )
+
+    os.makedirs(
+        BACKUP_FOLDER,
+        exist_ok=True
+    )
+
+    # Create missing CSV files without overwriting existing data.
+
+    files = [
+        (VEHICLES_FILE, VEHICLE_FIELDS),
+        (DRIVERS_FILE, DRIVER_FIELDS),
+        (TRIPS_FILE, TRIP_FIELDS),
+        (MAINTENANCE_FILE, MAINTENANCE_FIELDS)
+    ]
+
+    for filename, fields in files:
+
+        if not os.path.exists(filename):
+
+            with open(
+                filename,
+                "w",
+                newline="",
+                encoding="utf-8"
+            ) as file:
+
+                writer = csv.writer(file)
+                writer.writerow(fields)
+
+    return True
 
 VEHICLE_FIELDS = [
     "registration",
