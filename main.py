@@ -86,6 +86,13 @@ class FleetApp(App):
 
         self.root_layout.add_widget(self.content)
 
+        # =================================
+        # APK STORAGE CONFIGURATION
+        # =================================
+
+        if os.environ.get("ANDROID_ARGUMENT"):
+            fleet_core.configure_storage(self.user_data_dir)
+
         self.show_dashboard()
 
         return self.root_layout
